@@ -121,7 +121,8 @@
                         🟢 建議食用
                     </div>
                     
-                    <!-- 魚類圖樣與名字 (由 Canvas 改為精美渲染，這裡彈窗中也加上小介紹) -->
+                    <!-- 魚類圖樣與名字 (已修復：會根據抓到的魚動態更新可愛的代表 Emoji) -->
+                    <div class="text-7xl mb-2" id="fish-emoji">🦑</div>
                     <div class="text-3xl font-black mb-1 text-blue-900" id="fish-name">基隆特產 - 透抽</div>
                     
                     <!-- 決策回饋對話框 (預設隱藏，點了決策後顯示) -->
@@ -215,7 +216,7 @@
                             <h3 class="text-lg font-black text-red-800 mt-2">生鏽鋁罐</h3>
                             <p class="text-rose-500 font-extrabold text-sm mt-1">分解時間：約 80 ~ 200 年！</p>
                             <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-                                丟棄在基隆潮境公園或八斗子漁港周邊的鋁罐，生鏽碎裂時銳利的金屬片容易割傷靠岸產卵的海洋生物，也可能成為寄居蟹的「危險陷阱殼」。
+                                丟棄在基隆潮境公園 or 八斗子漁港周邊的鋁罐，生鏽碎裂時銳利的金屬片容易割傷靠岸產卵的海洋生物，也可能成為寄居蟹的「危險陷阱殼」。
                             </p>
                         </div>
                         <div class="mt-4 bg-red-100 p-2.5 rounded-xl text-[11px] font-bold text-red-900">
@@ -471,6 +472,7 @@
         let myBucket = []; // 釣魚桶容器
         let gameInitialized = false;
         let gamePaused = false;
+        let victoryTriggered = false; // 🌟 解決聲音與當機 Bug 專用標記
         const keys = {};
 
         const canoe = {
@@ -491,9 +493,11 @@
             { type: 'bag', color: '#cbd5e1', name: '破塑膠袋' }
         ];
 
+        // 加入了代表各魚種的 emoji 欄位，解決彈窗只顯示燈號圈的問題
         const fishTypes = [
             {
                 name: "基隆鎖管 (透抽)",
+                emoji: "🦑",
                 light: "green",
                 lightText: "🟢 建議食用 (綠燈)",
                 lightColorClass: "bg-emerald-500",
@@ -501,6 +505,7 @@
             },
             {
                 name: "秋刀魚",
+                emoji: "🐟",
                 light: "green",
                 lightText: "🟢 建議食用 (綠燈)",
                 lightColorClass: "bg-emerald-500",
@@ -508,6 +513,7 @@
             },
             {
                 name: "野生土魠魚",
+                emoji: "🐟",
                 light: "yellow",
                 lightText: "🟡 想清楚再吃 (黃燈)",
                 lightColorClass: "bg-amber-500",
@@ -515,6 +521,7 @@
             },
             {
                 name: "人工養殖虱目魚",
+                emoji: "🐟",
                 light: "yellow",
                 lightText: "🟡 想清楚再吃 (黃燈)",
                 lightColorClass: "bg-amber-500",
@@ -522,6 +529,7 @@
             },
             {
                 name: "野生黑鮪魚",
+                emoji: "🐟",
                 light: "red",
                 lightText: "🔴 避免食用 (紅燈)",
                 lightColorClass: "bg-rose-500",
@@ -529,6 +537,7 @@
             },
             {
                 name: "巨型豆腐鯊",
+                emoji: "🦈",
                 light: "red",
                 lightText: "🔴 避免食用 (紅燈)",
                 lightColorClass: "bg-rose-500",
@@ -537,6 +546,25 @@
         ];
 
         let seaItems = [];
+
+        // 🌟 補回缺失的 drawRoundedRect 函數宣告，確保全瀏覽器相容
+        function drawRoundedRect(context, x, y, width, height, radius) {
+            if (context.roundRect) {
+                context.roundRect(x, y, width, height, radius);
+            } else {
+                context.beginPath();
+                context.moveTo(x + radius, y);
+                context.lineTo(x + width - radius, y);
+                context.quadraticCurveTo(x + width, y, x + width, y + radius);
+                context.lineTo(x + width, y + height - radius);
+                context.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+                context.lineTo(x + radius, y + height);
+                context.quadraticCurveTo(x, y + height, x, y + height - radius);
+                context.lineTo(x, y + radius);
+                context.quadraticCurveTo(x, y, x + radius, y);
+                context.closePath();
+            }
+        }
 
         function resizeCanvas() {
             if (document.getElementById('tab-game').classList.contains('hidden')) return;
@@ -577,6 +605,7 @@
             myBucket = [];
             updateBucketUI();
             gamePaused = false;
+            victoryTriggered = false; // 重設標記
 
             // 獨木舟起始位置
             canoe.baseY = canvas.height * 0.35; 
@@ -617,7 +646,7 @@
                     info: fishType,
                     swimOffset: Math.random() * 100,
                     angle: 0,
-                    // 🌟 魚慢慢游：速度設在 0.3 ~ 0.6 之間
+                    // 魚慢慢游：速度設在 0.3 ~ 0.6 之間
                     speedX: (Math.random() * 0.3 + 0.3) * (Math.random() > 0.5 ? 1 : -1) 
                 });
             }
@@ -844,12 +873,15 @@
             ctx.lineTo(60, 0);
             ctx.stroke();
 
+            // 左槳葉
             ctx.fillStyle = '#ef4444';
             ctx.beginPath();
             ctx.ellipse(-65, 0, 16, 8, 0, 0, Math.PI * 2);
             ctx.fill();
             ctx.stroke();
 
+            // 右槳葉
+            ctx.beginPath(); // 🌟 修復路徑重置
             ctx.ellipse(65, 0, 16, 8, 0, 0, Math.PI * 2);
             ctx.fill();
             ctx.stroke();
@@ -858,7 +890,7 @@
             ctx.restore();
         }
 
-        // 🌟 核心手繪渲染：為每一種魚種和垃圾畫上完全獨特、超萌的圖案
+        // 核心手繪渲染：為每一種魚種和垃圾畫上完全獨特、超萌的圖案
         function drawCustomFish(ctx, name, size, time) {
             ctx.save();
             ctx.strokeStyle = '#1e293b';
@@ -1313,14 +1345,15 @@
             if (fish.info.light === 'red') borderStyle = 'border-rose-500';
             cardBg.className = `bg-amber-50 border-8 ${borderStyle} p-6 rounded-3xl max-w-md w-full mx-4 text-center shadow-[8px_8px_0px_#1e293b] text-slate-800 transform scale-100 transition-transform duration-300`;
 
-            document.getElementById('fish-emoji').innerText = fish.info.light === 'green' ? '🟢' : (fish.info.light === 'yellow' ? '🟡' : '🔴');
+            // 將大圖標設定為真正符合該魚種的 Emojis 圖案
+            document.getElementById('fish-emoji').innerText = fish.info.emoji || '🐟';
             document.getElementById('fish-name').innerText = fish.info.name;
             document.getElementById('fish-desc').innerHTML = fish.info.desc;
 
             fishEduModal.classList.remove('hidden');
         }
 
-        // 🌟 做出「放生」或「入桶」抉擇時的邏輯
+        // 做出「放生」或「入桶」抉擇時的邏輯
         let latestChoiceResult = ''; // 'released' 或 'bucketed'
         function makeFishDecision(choice) {
             const fish = seaItems[currentActiveFishIndex];
@@ -1336,7 +1369,7 @@
                 playCorrectSound(); // 快樂放生音
 
                 feedbackEl.className = "my-3 p-3 rounded-xl border-3 border-emerald-500 bg-emerald-50 text-emerald-800 font-extrabold text-xs text-left leading-relaxed";
-                feedbackEl.innerHTML = `💙 【成功放游！】<br>你溫柔地對待了牠！讓 <strong>${fish.info.name}</strong> 再次回到大海。你實踐了溫和、不干擾的無痕山林精神！`;
+                feedbackEl.innerHTML = `💙 【成功放游！】<br>你溫柔地對待了牠！讓 <strong>${fish.info.name}</strong> 再次回到大海。你實踐了溫和、不干擾的無痕海洋精神！`;
             } 
             else if (choice === 'keep') {
                 latestChoiceResult = 'bucketed';
@@ -1504,7 +1537,9 @@
                                 maxLife: 90
                             });
 
-                            if (score === 3) {
+                            // 🌟 加入 victoryTriggered 守衛標記，防止每秒執行 60 次音效，引發暴走當機！
+                            if (score === 3 && !victoryTriggered) {
+                                victoryTriggered = true;
                                 lntBadge.classList.remove('scale-0', 'opacity-0');
                                 lntBadge.classList.add('scale-100', 'opacity-100', 'animate-bounce');
                                 playVictorySound();
@@ -1579,7 +1614,7 @@
                 a: [
                     "A) 划獨木舟悄悄靠近牠，伸出手去摸摸牠的殼",
                     "B) 與海龜保持安全距離觀察，絕對不觸碰、不騷擾",
-                    "C) 拿手邊好吃的零食或麵包丟給海龜吃"
+                    "C) 拿手邊好吃的零食 or 麵包丟給海龜吃"
                 ],
                 correct: 1, // B
                 hint: "保持距離、不干擾、不餵食，就是最好的海洋環境無痕對待！"
