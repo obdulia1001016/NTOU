@@ -74,7 +74,7 @@
             margin: 0;
         }
 
-        /* 學生基本資料佈局 */
+        /* 學生基本資料：黃金佈局 */
         .input-row-half {
             display: flex;
             gap: 15px;
@@ -363,8 +363,8 @@
     let selectedColor = "";
     let isSuccess = "";
     
-    // 已為您自動綁定最新產生的自動分頁版 GAS 後端網址
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbxVNKVNyxLM-WGfIfiQHO9aHlWSurOAeqpWoSS8NMDB2IJJcnorTeNJ62OFT5ZhBYtiuQ/exec";
+    // 已將您貼上的最新後端網址對接進來
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbw37XDHkUTZPIBvlqavM20Grg8VJUPNqFv1U4tFHmdcl3ug0NZuNPNawe_0J7HiCT6h0Q/exec";
 
     function selectColor(element, color) {
         selectedColor = color;
@@ -420,7 +420,6 @@
         btn.disabled = true;
         btn.innerText = "正在飛速傳送中...";
 
-        // 收集除錯複選內容
         let troubleReasons = [];
         document.querySelectorAll('.checkbox-item input:checked').forEach(cb => {
             troubleReasons.push(cb.value);
@@ -433,10 +432,10 @@
 
         let finalReflection = `[銅箔用量: ${foilLength}cm] ${reflection}`;
 
-        // 使用獨立參數封裝傳送，與自動分頁版後端完美對接
+        // 核心對接點：將 classInput 與 seatNumber 獨立拆開傳給後端
         const formData = new URLSearchParams();
-        formData.append('classInput', classVal);   // 傳送純班級，例如："701"
-        formData.append('seatNumber', seatVal);   // 傳送純座號，例如："05"
+        formData.append('classInput', classVal);   
+        formData.append('seatNumber', seatVal);   
         formData.append('studentName', studentName);
         formData.append('ledColor', selectedColor);
         formData.append('success', finalSuccessStatus);
