@@ -99,11 +99,11 @@
         <!-- 進度指示器 -->
         <div class="space-y-2">
           <div class="flex justify-between items-center text-xs font-bold text-slate-400">
-            <span id="quizProgressText">正在挑戰第 1 / 2 題</span>
-            <span id="quizProgressPercent">50%</span>
+            <span id="quizProgressText">正在挑戰第 1 / 10 題</span>
+            <span id="quizProgressPercent">10%</span>
           </div>
           <div class="w-full bg-slate-100 rounded-full h-2">
-            <div id="quizProgressBar" class="bg-blue-500 h-2 rounded-full transition-all duration-300" style="width: 50%;"></div>
+            <div id="quizProgressBar" class="bg-blue-500 h-2 rounded-full transition-all duration-300" style="width: 10%;"></div>
           </div>
         </div>
 
@@ -117,32 +117,28 @@
         </div>
 
         <form id="quizForm" class="space-y-6">
+          
+          <!-- ================= 是非題區 (Q1 - Q5) ================= -->
+          
           <!-- 第一題 -->
           <div class="question-container space-y-3" id="q1Block">
-            <h2 class="text-base md:text-lg font-bold text-slate-800 flex items-start">
-              <span class="bg-blue-100 text-blue-600 text-xs px-2.5 py-1 rounded-lg mr-2 mt-0.5">Q1</span>
-              台灣最高的山是哪一座？
+            <h2 class="text-base md:text-lg font-bold text-slate-800 leading-relaxed">
+              <span class="bg-blue-100 text-blue-600 text-xs px-2.5 py-1 rounded-lg mr-2 inline-block">Q1 是非題</span>
+              家燕是臺灣一年四季常見的鳥類，牠們會在春夏之間進行繁殖與育雛。
             </h2>
-            <div class="grid grid-cols-1 gap-2.5">
+            <div class="grid grid-cols-2 gap-4">
               <label class="relative block cursor-pointer bounce-hover">
-                <input type="radio" name="q1" value="阿里山" class="custom-radio absolute opacity-0 w-0 h-0" required>
-                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
-                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
-                  <span class="font-medium text-slate-700">阿里山</span>
+                <input type="radio" name="q1" value="對" class="custom-radio absolute opacity-0 w-0 h-0" required>
+                <div class="radio-card flex flex-col items-center justify-center p-4 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 transition-all">
+                  <div class="text-3xl mb-1 text-emerald-500">⭕</div>
+                  <span class="font-bold text-slate-700">對 / 是</span>
                 </div>
               </label>
               <label class="relative block cursor-pointer bounce-hover">
-                <input type="radio" name="q1" value="玉山" class="custom-radio absolute opacity-0 w-0 h-0">
-                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
-                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
-                  <span class="font-medium text-slate-700">玉山</span>
-                </div>
-              </label>
-              <label class="relative block cursor-pointer bounce-hover">
-                <input type="radio" name="q1" value="陽明山" class="custom-radio absolute opacity-0 w-0 h-0">
-                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
-                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
-                  <span class="font-medium text-slate-700">陽明山</span>
+                <input type="radio" name="q1" value="錯" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex flex-col items-center justify-center p-4 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 transition-all">
+                  <div class="text-3xl mb-1 text-rose-500">❌</div>
+                  <span class="font-bold text-slate-700">錯 / 非</span>
                 </div>
               </label>
             </div>
@@ -150,34 +146,293 @@
 
           <!-- 第二題 -->
           <div class="question-container space-y-3 hidden" id="q2Block">
-            <h2 class="text-base md:text-lg font-bold text-slate-800 flex items-start">
-              <span class="bg-blue-100 text-blue-600 text-xs px-2.5 py-1 rounded-lg mr-2 mt-0.5">Q2</span>
-              水的三態中，固態稱為什麼？
+            <h2 class="text-base md:text-lg font-bold text-slate-800 leading-relaxed">
+              <span class="bg-blue-100 text-blue-600 text-xs px-2.5 py-1 rounded-lg mr-2 inline-block">Q2 是非題</span>
+              人類模仿魚、蝦或蟲的外形、動作所做的擬真餌稱為擬餌，可以幫助釣魚。
             </h2>
-            <div class="grid grid-cols-1 gap-2.5">
+            <div class="grid grid-cols-2 gap-4">
               <label class="relative block cursor-pointer bounce-hover">
-                <input type="radio" name="q2" value="冰" class="custom-radio absolute opacity-0 w-0 h-0" required>
-                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
-                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
-                  <span class="font-medium text-slate-700">冰</span>
+                <input type="radio" name="q2" value="對" class="custom-radio absolute opacity-0 w-0 h-0" required>
+                <div class="radio-card flex flex-col items-center justify-center p-4 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 transition-all">
+                  <div class="text-3xl mb-1 text-emerald-500">⭕</div>
+                  <span class="font-bold text-slate-700">對 / 是</span>
                 </div>
               </label>
               <label class="relative block cursor-pointer bounce-hover">
-                <input type="radio" name="q2" value="水蒸氣" class="custom-radio absolute opacity-0 w-0 h-0">
-                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
-                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
-                  <span class="font-medium text-slate-700">水蒸氣</span>
-                </div>
-              </label>
-              <label class="relative block cursor-pointer bounce-hover">
-                <input type="radio" name="q2" value="雲" class="custom-radio absolute opacity-0 w-0 h-0">
-                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
-                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
-                  <span class="font-medium text-slate-700">雲</span>
+                <input type="radio" name="q2" value="錯" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex flex-col items-center justify-center p-4 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 transition-all">
+                  <div class="text-3xl mb-1 text-rose-500">❌</div>
+                  <span class="font-bold text-slate-700">錯 / 非</span>
                 </div>
               </label>
             </div>
           </div>
+
+          <!-- 第三題 -->
+          <div class="question-container space-y-3 hidden" id="q3Block">
+            <h2 class="text-base md:text-lg font-bold text-slate-800 leading-relaxed">
+              <span class="bg-blue-100 text-blue-600 text-xs px-2.5 py-1 rounded-lg mr-2 inline-block">Q3 是非題</span>
+              動物在成長過程中，必須攝取食物獲得養分，以維持生命，透過食物關係將生物連結起來，就稱為食物鏈。
+            </h2>
+            <div class="grid grid-cols-2 gap-4">
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q3" value="對" class="custom-radio absolute opacity-0 w-0 h-0" required>
+                <div class="radio-card flex flex-col items-center justify-center p-4 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 transition-all">
+                  <div class="text-3xl mb-1 text-emerald-500">⭕</div>
+                  <span class="font-bold text-slate-700">對 / 是</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q3" value="錯" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex flex-col items-center justify-center p-4 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 transition-all">
+                  <div class="text-3xl mb-1 text-rose-500">❌</div>
+                  <span class="font-bold text-slate-700">錯 / 非</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 第四題 -->
+          <div class="question-container space-y-3 hidden" id="q4Block">
+            <h2 class="text-base md:text-lg font-bold text-slate-800 leading-relaxed">
+              <span class="bg-blue-100 text-blue-600 text-xs px-2.5 py-1 rounded-lg mr-2 inline-block">Q4 是非題</span>
+              不鏽鋼材質可以防鏽，是利用合金方式製成，常運用於餐具、鍋子等產品。
+            </h2>
+            <div class="grid grid-cols-2 gap-4">
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q4" value="對" class="custom-radio absolute opacity-0 w-0 h-0" required>
+                <div class="radio-card flex flex-col items-center justify-center p-4 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 transition-all">
+                  <div class="text-3xl mb-1 text-emerald-500">⭕</div>
+                  <span class="font-bold text-slate-700">對 / 是</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q4" value="錯" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex flex-col items-center justify-center p-4 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 transition-all">
+                  <div class="text-3xl mb-1 text-rose-500">❌</div>
+                  <span class="font-bold text-slate-700">錯 / 非</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 第五題 -->
+          <div class="question-container space-y-3 hidden" id="q5Block">
+            <h2 class="text-base md:text-lg font-bold text-slate-800 leading-relaxed">
+              <span class="bg-blue-100 text-blue-600 text-xs px-2.5 py-1 rounded-lg mr-2 inline-block">Q5 是非題</span>
+              擬餌這樣的釣魚工具，只是單純的模仿，與觀察大自然無關。
+            </h2>
+            <div class="grid grid-cols-2 gap-4">
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q5" value="對" class="custom-radio absolute opacity-0 w-0 h-0" required>
+                <div class="radio-card flex flex-col items-center justify-center p-4 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 transition-all">
+                  <div class="text-3xl mb-1 text-emerald-500">⭕</div>
+                  <span class="font-bold text-slate-700">對 / 是</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q5" value="錯" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex flex-col items-center justify-center p-4 border-2 border-slate-100 rounded-2xl hover:bg-slate-50 transition-all">
+                  <div class="text-3xl mb-1 text-rose-500">❌</div>
+                  <span class="font-bold text-slate-700">錯 / 非</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+
+          <!-- ================= 選擇題區 (Q6 - Q10) ================= -->
+
+          <!-- 第六題 -->
+          <div class="question-container space-y-3 hidden" id="q6Block">
+            <h2 class="text-base md:text-lg font-bold text-slate-800 leading-relaxed">
+              <span class="bg-blue-100 text-blue-600 text-xs px-2.5 py-1 rounded-lg mr-2 inline-block">Q6 選擇題</span>
+              下列哪一個食品的製作過程中沒有利用到酵母菌？
+            </h2>
+            <div class="grid grid-cols-1 gap-2.5">
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q6" value="優酪乳" class="custom-radio absolute opacity-0 w-0 h-0" required>
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">優酪乳</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q6" value="鬆軟的麵包" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">鬆軟的麵包</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q6" value="食醋" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">食醋</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q6" value="米酒" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">米酒</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 第七題 -->
+          <div class="question-container space-y-3 hidden" id="q7Block">
+            <h2 class="text-base md:text-lg font-bold text-slate-800 leading-relaxed">
+              <span class="bg-blue-100 text-blue-600 text-xs px-2.5 py-1 rounded-lg mr-2 inline-block">Q7 選擇題</span>
+              進行「影響鐵製品生鏽的原因」實驗時，當實驗假設是「空氣會影響鐵製品生鏽」，下列哪一個因素是屬於「控制變因」？
+            </h2>
+            <div class="grid grid-cols-1 gap-2.5">
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q7" value="接觸空氣量的多寡" class="custom-radio absolute opacity-0 w-0 h-0" required>
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">接觸空氣量的多寡</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q7" value="鋼棉的大小" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">鋼棉的大小</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q7" value="生鏽的時間長短" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">生鏽的時間長短</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q7" value="以上都是" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">以上都是</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 第八題 -->
+          <div class="question-container space-y-3 hidden" id="q8Block">
+            <h2 class="text-base md:text-lg font-bold text-slate-800 leading-relaxed">
+              <span class="bg-blue-100 text-blue-600 text-xs px-2.5 py-1 rounded-lg mr-2 inline-block">Q8 選擇題</span>
+              紅樹林群集裡包含許多種生物族群，下列哪一種動物族群最不可能屬於紅樹林群集？
+            </h2>
+            <div class="grid grid-cols-1 gap-2.5">
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q8" value="弧邊招潮蟹" class="custom-radio absolute opacity-0 w-0 h-0" required>
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">弧邊招潮蟹</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q8" value="虱目魚" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">虱目魚</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q8" value="小白鷺" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">小白鷺</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q8" value="斑馬" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">斑馬</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 第九題 -->
+          <div class="question-container space-y-3 hidden" id="q9Block">
+            <h2 class="text-base md:text-lg font-bold text-slate-800 leading-relaxed">
+              <span class="bg-blue-100 text-blue-600 text-xs px-2.5 py-1 rounded-lg mr-2 inline-block">Q9 選擇題</span>
+              擬餌可以透過哪一種方式讓魚以為是真的，而咬食上鉤？
+            </h2>
+            <div class="grid grid-cols-1 gap-2.5">
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q9" value="可以在水中發出味道" class="custom-radio absolute opacity-0 w-0 h-0" required>
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">可以在水中發出味道</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q9" value="模仿魚的動作" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">模仿魚的動作</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q9" value="模仿魚的外形" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">模仿魚的外形</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q9" value="以上皆是" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">以上皆是</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 第十題 -->
+          <div class="question-container space-y-3 hidden" id="q10Block">
+            <h2 class="text-base md:text-lg font-bold text-slate-800 leading-relaxed">
+              <span class="bg-blue-100 text-blue-600 text-xs px-2.5 py-1 rounded-lg mr-2 inline-block">Q10 選擇題</span>
+              下列哪一個組合不能被歸為同一個群集？
+            </h2>
+            <div class="grid grid-cols-1 gap-2.5">
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q10" value="紅樹林的招潮蟹和藻類" class="custom-radio absolute opacity-0 w-0 h-0" required>
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">紅樹林的招潮蟹和藻類</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q10" value="臺南市的老人和小孩" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">臺南市的老人和小孩</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q10" value="學校池塘裡的蓋斑鬥魚和水黽" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">學校池塘裡的蓋斑鬥魚和水黽</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q10" value="阿里山國家公園的臺灣獼猴和紅檜" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">阿里山國家公園的臺灣獼猴和紅檜</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
 
           <!-- 控制按鈕列 -->
           <div class="flex space-x-3 pt-2">
@@ -273,15 +528,23 @@
     // 老師若不想每次都手動貼上，可以直接將您的 GAS Web App 網址填在下方雙引號內：
     const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbzvuC_sMr3DXempDt9Uy-xWHMRTGuS3vZzQ7SUY7DdJCGIqiGAF_u58mJYpapJPo01n/exec"; 
 
-    let currentStep = 1; // 1: Lobby, 2: Q1, 3: Q2, 4: Result
+    let currentStep = 1; // 1: Lobby, 2 - 11 表示挑戰的題目步數 (Q1 - Q10)
     let studentName = "";
     let selectedAvatar = "🐶";
-    const totalQuestions = 2;
+    const totalQuestions = 10;
 
-    // 正確答案定義
+    // 正確答案定義 (是非題5題 + 選擇題5題)
     const correctAnswers = {
-      q1: "玉山",
-      q2: "冰"
+      q1: "錯", // 家燕多屬夏候鳥，非「一年四季常見」的鳥類
+      q2: "對",
+      q3: "對",
+      q4: "對",
+      q5: "錯", // 製作與模仿擬餌需要十分精確且細微地觀察大自然
+      q6: "優酪乳", // 優酪乳是使用乳酸菌
+      q7: "鋼棉的大小", // 操縱變因為接觸空氣量、應變變因為生鏽程度，其他均為控制變因
+      q8: "斑馬",
+      q9: "以上皆是",
+      q10: "臺南市的老人和小孩" // 群集必須由「多個不同物種」的族群組合，老人與小孩皆屬同一人類物種(人類族群)
     };
 
     // 可愛動物頭像列表
@@ -303,8 +566,6 @@
     const quizProgressPercent = document.getElementById("quizProgressPercent");
     const quizProgressBar = document.getElementById("quizProgressBar");
     
-    const q1Block = document.getElementById("q1Block");
-    const q2Block = document.getElementById("q2Block");
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
     const submitBtn = document.getElementById("submitBtn");
@@ -378,63 +639,78 @@
 
     // 更新題目顯示與進度
     function updateQuizProgress() {
+      // 隱藏全部題目，僅顯示當前 Step 的題目
+      for (let i = 1; i <= totalQuestions; i++) {
+        const block = document.getElementById(`q${i}Block`);
+        if (block) {
+          if (i === currentStep) {
+            block.classList.remove("hidden");
+          } else {
+            block.classList.add("hidden");
+          }
+        }
+      }
+
+      // 控制底部按鈕之顯示狀態
       if (currentStep === 1) {
-        q1Block.classList.remove("hidden");
-        q2Block.classList.add("hidden");
         prevBtn.classList.add("hidden");
         nextBtn.classList.remove("hidden");
         submitBtn.classList.add("hidden");
-        
-        quizProgressText.innerText = `正在挑戰第 1 / 2 題`;
-        quizProgressPercent.innerText = `50%`;
-        quizProgressBar.style.width = `50%`;
-      } else if (currentStep === 2) {
-        q1Block.classList.add("hidden");
-        q2Block.classList.remove("hidden");
+      } else if (currentStep === totalQuestions) {
         prevBtn.classList.remove("hidden");
         nextBtn.classList.add("hidden");
         submitBtn.classList.remove("hidden");
-        
-        quizProgressText.innerText = `正在挑戰第 2 / 2 題`;
-        quizProgressPercent.innerText = `100%`;
-        quizProgressBar.style.width = `100%`;
+      } else {
+        prevBtn.classList.remove("hidden");
+        nextBtn.classList.remove("hidden");
+        submitBtn.classList.add("hidden");
       }
+
+      // 更新進度條與文字
+      const progressPercent = Math.round((currentStep / totalQuestions) * 100);
+      quizProgressText.innerText = `正在挑戰第 ${currentStep} / ${totalQuestions} 題`;
+      quizProgressPercent.innerText = `${progressPercent}%`;
+      quizProgressBar.style.width = `${progressPercent}%`;
     }
 
     // 「下一題」與「上一題」點擊事件
     nextBtn.addEventListener("click", () => {
       // 檢查當前題目是否有作答
-      const q1Selected = document.querySelector('input[name="q1"]:checked');
-      if (!q1Selected) {
+      const currentSelected = document.querySelector(`input[name="q${currentStep}"]:checked`);
+      if (!currentSelected) {
         showCustomAlert("☝️ 請選擇答案", "這題還沒選出你的答案唷！", "warning");
         return;
       }
-      currentStep = 2;
+      currentStep++;
       updateQuizProgress();
     });
 
     prevBtn.addEventListener("click", () => {
-      currentStep = 1;
-      updateQuizProgress();
+      if (currentStep > 1) {
+        currentStep--;
+        updateQuizProgress();
+      }
     });
 
     // 2. 表單提交（送出並看成績）
     quizForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const q2Selected = document.querySelector('input[name="q2"]:checked');
-      if (!q2Selected) {
-        showCustomAlert("☝️ 請選擇答案", "第二題還沒作答唷！", "warning");
+      // 檢查最後一題有沒有寫
+      const lastSelected = document.querySelector(`input[name="q${totalQuestions}"]:checked`);
+      if (!lastSelected) {
+        showCustomAlert("☝️ 請選擇答案", "最後一題還沒作答唷！", "warning");
         return;
       }
 
-      // 算分
+      // 算分（10題，每題10分）
       let score = 0;
-      const q1Val = document.querySelector('input[name="q1"]:checked').value;
-      const q2Val = document.querySelector('input[name="q2"]:checked').value;
-
-      if (q1Val === correctAnswers.q1) score += 50;
-      if (q2Val === correctAnswers.q2) score += 50;
+      for (let i = 1; i <= totalQuestions; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected && selected.value === correctAnswers[`q${i}`]) {
+          score += 10;
+        }
+      }
 
       // 轉換到結算畫面
       quizScreen.classList.add("hidden");
@@ -448,9 +724,12 @@
         resultEmoji.innerText = "👑";
         resultTitle.innerText = "超級優秀！完美滿分！";
         triggerConfetti(); // 施放滿分煙火
-      } else if (score === 50) {
+      } else if (score >= 80) {
+        resultEmoji.innerText = "🌟";
+        resultTitle.innerText = "太厲害了！你非常棒！";
+      } else if (score >= 60) {
         resultEmoji.innerText = "👍";
-        resultTitle.innerText = "表現不錯！再接再厲！";
+        resultTitle.innerText = "表現不錯！有及格喔！";
       } else {
         resultEmoji.innerText = "💡";
         resultTitle.innerText = "別灰心！多加練習會更好！";
@@ -476,11 +755,11 @@
       };
 
       // 採用 5 次指數退避重試機制以確保留連線品質與穩定度
-      sendWithRetry(currentGasUrl, payload, 5, 1000);
+      sendWithRetry(currentGasUrl, payload, 5, 1000, score);
     }
 
     // 實作帶有指數退避機制的 Fetch POST
-    function sendWithRetry(url, data, retries, delay) {
+    function sendWithRetry(url, data, retries, delay, score) {
       fetch(url, {
         method: "POST",
         mode: "cors",
@@ -506,7 +785,7 @@
         if (retries > 1) {
           // 進行下一次重試 (不將 retry 資訊輸出至 console 避免雜訊)
           setTimeout(() => {
-            sendWithRetry(url, data, retries - 1, delay * 2);
+            sendWithRetry(url, data, retries - 1, delay * 2, score);
           }, delay);
         } else {
           // 超過重試次數，顯示錯誤訊息
