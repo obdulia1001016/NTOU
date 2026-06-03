@@ -74,7 +74,7 @@
             margin: 0;
         }
 
-        /* 學生基本資料：黃金佈局 */
+        /* 學生基本資料佈局 */
         .input-row-half {
             display: flex;
             gap: 15px;
@@ -363,7 +363,7 @@
     let selectedColor = "";
     let isSuccess = "";
     
-    // 您的專屬 GAS 後端網址
+    // 已為您自動綁定最新產生的自動分頁版 GAS 後端網址
     const GAS_URL = "https://script.google.com/macros/s/AKfycbw37XDHkUTZPIBvlqavM20Grg8VJUPNqFv1U4tFHmdcl3ug0NZuNPNawe_0J7HiCT6h0Q/exec";
 
     function selectColor(element, color) {
@@ -407,7 +407,7 @@
     function sendData() {
         const btn = document.getElementById('submit');
         const classVal = document.getElementById('classInput').value.trim();
-        let seatVal = document.getElementById('seatNumber').value.trim();
+        const seatVal = document.getElementById('seatNumber').value.trim();
         const studentName = document.getElementById('studentName').value.trim();
         const foilLength = document.getElementById('foilLength').value;
         const reflection = document.getElementById('reflection').value.trim();
@@ -417,15 +417,10 @@
             return;
         }
 
-        // 自動補零防呆（若學生習慣輸入個位數如 5，自動升級為 05）
-        if (seatVal.length === 1 && !isNaN(seatVal)) {
-            seatVal = "0" + seatVal;
-        }
-        const fullClassId = classVal + seatVal;
-
         btn.disabled = true;
         btn.innerText = "正在飛速傳送中...";
 
+        // 收集除錯複選內容
         let troubleReasons = [];
         document.querySelectorAll('.checkbox-item input:checked').forEach(cb => {
             troubleReasons.push(cb.value);
@@ -438,8 +433,10 @@
 
         let finalReflection = `[銅箔用量: ${foilLength}cm] ${reflection}`;
 
+        // 使用獨立參數封裝傳送，與自動分頁版後端完美對接
         const formData = new URLSearchParams();
-        formData.append('classId', fullClassId);
+        formData.append('classInput', classVal);   // 傳送純班級，例如："701"
+        formData.append('seatNumber', seatVal);   // 傳送純座號，例如："05"
         formData.append('studentName', studentName);
         formData.append('ledColor', selectedColor);
         formData.append('success', finalSuccessStatus);
