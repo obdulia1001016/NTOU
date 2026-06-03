@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✨ 隨堂挑戰賽！小測驗 ✨</title>
+  <!-- 引入 Tailwind CSS 提供現代且回應式的排版 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- 引入 Google Fonts 圓體中文字型 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- 引入 Canvas Confetti 用於滿分煙火特效 -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: linear-gradient(135deg, #eef2f3 0%, #e0eafc 100%);
+    }
+    /* 自訂平滑漸變與陰影效果 */
+    .bounce-hover {
+      transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .bounce-hover:hover {
+      transform: translateY(-2px);
+    }
+    /* 隱藏原生單選鈕，改用自訂卡片 */
+    .custom-radio:checked + .radio-card {
+      border-color: #3b82f6;
+      background-color: #eff6ff;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    }
+    .custom-radio:checked + .radio-card .radio-dot {
+      background-color: #3b82f6;
+      border-color: #3b82f6;
+    }
+    .custom-radio:checked + .radio-card .radio-dot::after {
+      content: '';
+      display: block;
+      width: 8px;
+      height: 8px;
+      background-color: white;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-4 md:p-8">
+
+  <!-- 主容器 -->
+  <main class="flex-grow flex items-center justify-center">
+    <div class="w-full max-w-lg bg-white rounded-3xl shadow-xl overflow-hidden border border-blue-50/50 relative">
+      
+      <!-- 頂部炫彩條 -->
+      <div class="h-3 bg-gradient-to-r from-blue-400 via-indigo-400 to-teal-400 w-full"></div>
+
+      <!-- 右上角老師設定按鈕 -->
+      <button id="settingsBtn" class="absolute top-6 right-6 text-slate-400 hover:text-blue-500 transition-colors focus:outline-none" title="老師設定">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 animate-spin-slow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+      </button>
+
+      <!-- 頁面 1：學生報到大廳 -->
+      <section id="lobbyScreen" class="p-6 md:p-8 space-y-6">
+        <div class="text-center space-y-2">
+          <div class="inline-flex items-center justify-center p-3 bg-blue-50 rounded-2xl text-blue-500 mb-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+          <h1 class="text-2xl md:text-3xl font-extrabold text-slate-800 tracking-tight">今日隨堂挑戰賽</h1>
+          <p class="text-slate-500 text-sm">請輸入你的姓名並挑選一個幸運動物頭像，準備好就開始囉！</p>
+        </div>
+
+        <div class="space-y-4">
+          <!-- 姓名輸入框 -->
+          <div>
+            <label for="studentName" class="block text-sm font-bold text-slate-700 mb-2">👤 你的姓名</label>
+            <input type="text" id="studentName" placeholder="例如：張小明" 
+              class="w-full px-4 py-3 border-2 border-slate-200 rounded-2xl focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all outline-none font-medium text-slate-800">
+          </div>
+
+          <!-- 趣味頭像選擇 -->
+          <div>
+            <span class="block text-sm font-bold text-slate-700 mb-2">🐾 選擇你的幸運夥伴</span>
+            <div class="grid grid-cols-5 gap-2" id="avatarContainer">
+              <!-- 透過 JS 注入可愛動物 Emoji 頭像 -->
+            </div>
+          </div>
+        </div>
+
+        <button id="startBtn" class="w-full py-4 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-bold rounded-2xl shadow-lg hover:shadow-indigo-200 hover:from-blue-600 hover:to-indigo-600 transition-all bounce-hover text-lg">
+          開始挑戰 🚀
+        </button>
+      </section>
+
+      <!-- 頁面 2：測驗作答區 -->
+      <section id="quizScreen" class="p-6 md:p-8 space-y-6 hidden">
+        <!-- 進度指示器 -->
+        <div class="space-y-2">
+          <div class="flex justify-between items-center text-xs font-bold text-slate-400">
+            <span id="quizProgressText">正在挑戰第 1 / 2 題</span>
+            <span id="quizProgressPercent">50%</span>
+          </div>
+          <div class="w-full bg-slate-100 rounded-full h-2">
+            <div id="quizProgressBar" class="bg-blue-500 h-2 rounded-full transition-all duration-300" style="width: 50%;"></div>
+          </div>
+        </div>
+
+        <!-- 學生資訊列 -->
+        <div class="flex items-center space-x-3 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+          <span id="activeAvatar" class="text-2xl">🐱</span>
+          <div>
+            <p class="text-xs text-slate-400 font-bold">目前挑戰者</p>
+            <p id="activeStudentName" class="text-sm font-bold text-slate-700">載入中...</p>
+          </div>
+        </div>
+
+        <form id="quizForm" class="space-y-6">
+          <!-- 第一題 -->
+          <div class="question-container space-y-3" id="q1Block">
+            <h2 class="text-base md:text-lg font-bold text-slate-800 flex items-start">
+              <span class="bg-blue-100 text-blue-600 text-xs px-2.5 py-1 rounded-lg mr-2 mt-0.5">Q1</span>
+              台灣最高的山是哪一座？
+            </h2>
+            <div class="grid grid-cols-1 gap-2.5">
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q1" value="阿里山" class="custom-radio absolute opacity-0 w-0 h-0" required>
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">阿里山</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q1" value="玉山" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">玉山</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q1" value="陽明山" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">陽明山</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 第二題 -->
+          <div class="question-container space-y-3 hidden" id="q2Block">
+            <h2 class="text-base md:text-lg font-bold text-slate-800 flex items-start">
+              <span class="bg-blue-100 text-blue-600 text-xs px-2.5 py-1 rounded-lg mr-2 mt-0.5">Q2</span>
+              水的三態中，固態稱為什麼？
+            </h2>
+            <div class="grid grid-cols-1 gap-2.5">
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q2" value="冰" class="custom-radio absolute opacity-0 w-0 h-0" required>
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">冰</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q2" value="水蒸氣" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">水蒸氣</span>
+                </div>
+              </label>
+              <label class="relative block cursor-pointer bounce-hover">
+                <input type="radio" name="q2" value="雲" class="custom-radio absolute opacity-0 w-0 h-0">
+                <div class="radio-card flex items-center p-3.5 border-2 border-slate-100 rounded-xl hover:bg-slate-50 transition-all">
+                  <div class="radio-dot w-5 h-5 border-2 border-slate-300 rounded-full flex items-center justify-center mr-3 transition-all"></div>
+                  <span class="font-medium text-slate-700">雲</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- 控制按鈕列 -->
+          <div class="flex space-x-3 pt-2">
+            <button type="button" id="prevBtn" class="flex-1 py-3.5 bg-slate-100 text-slate-600 font-bold rounded-2xl hover:bg-slate-200 transition-all text-sm hidden">
+              上一題
+            </button>
+            <button type="button" id="nextBtn" class="flex-2 w-full py-3.5 bg-blue-500 text-white font-bold rounded-2xl hover:bg-blue-600 transition-all text-sm">
+              下一題 👉
+            </button>
+            <button type="submit" id="submitBtn" class="flex-2 w-full py-3.5 bg-gradient-to-r from-emerald-400 to-teal-500 text-white font-bold rounded-2xl hover:from-emerald-500 hover:to-teal-600 shadow-md hover:shadow-emerald-100 transition-all text-sm hidden">
+              送出並看成績 🎓
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- 頁面 3：成績結算與上傳區 -->
+      <section id="resultScreen" class="p-6 md:p-8 text-center space-y-6 hidden">
+        <div class="space-y-2">
+          <span id="resultEmoji" class="text-6xl block">🏆</span>
+          <h1 class="text-2xl font-black text-slate-800" id="resultTitle">挑戰完成！</h1>
+          <p class="text-sm text-slate-400" id="resultNameLabel">辛苦囉，小明同學！</p>
+        </div>
+
+        <!-- 圓形計分板 -->
+        <div class="inline-flex items-center justify-center relative w-40 h-40 bg-slate-50 rounded-full border-8 border-blue-500 shadow-inner">
+          <div class="text-center">
+            <span class="text-5xl font-black text-blue-600" id="finalScore">100</span>
+            <span class="text-slate-400 text-sm font-bold block mt-1">分</span>
+          </div>
+        </div>
+
+        <!-- 試算表同步狀態顯示 -->
+        <div id="uploadStatusBox" class="p-4 rounded-2xl border transition-all duration-300">
+          <div class="flex items-center justify-center space-x-3">
+            <span id="statusIcon" class="text-xl">🔄</span>
+            <p id="statusText" class="text-sm font-medium text-slate-600">正在傳送成績到老師的試算表...</p>
+          </div>
+        </div>
+
+        <button id="restartBtn" class="w-full py-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-2xl transition-all">
+          重新進行挑戰 🔁
+        </button>
+      </section>
+
+      <!-- 頁面 4：教師設定背景面板 (Modal) -->
+      <div id="settingsModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border border-slate-100">
+          <div class="p-6 space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+              <h3 class="text-lg font-bold text-slate-800 flex items-center">
+                <span class="mr-2">⚙️</span> 老師專屬設定後台
+              </h3>
+              <button id="closeSettingsBtn" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+            </div>
+            
+            <div class="space-y-3">
+              <p class="text-xs text-slate-500 leading-relaxed">
+                請在此處貼上您從 Google Apps Script 部署所得的「網頁應用程式網址 (Web App URL)」。系統會自動將資料儲存在本地瀏覽器，免除手動修改程式碼的麻煩！
+              </p>
+              <div>
+                <label for="gasUrlInput" class="block text-xs font-bold text-slate-600 mb-1.5">🔗 GAS Web App 連結</label>
+                <input type="url" id="gasUrlInput" placeholder="https://script.google.com/macros/s/.../exec" 
+                  class="w-full px-3 py-2 text-xs border border-slate-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none">
+              </div>
+            </div>
+
+            <div class="flex space-x-2 pt-2">
+              <button id="saveSettingsBtn" class="flex-1 py-2.5 bg-blue-500 hover:bg-blue-600 text-white text-sm font-bold rounded-xl transition-all">
+                儲存設定
+              </button>
+              <button id="cancelSettingsBtn" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-600 text-sm font-medium rounded-xl transition-all">
+                取消
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 頁底聲明 -->
+  <footer class="text-center text-xs text-slate-400 mt-6 space-y-1">
+    <p>💡 本測驗分數與作答時間將在送出後自動回傳至雲端系統</p>
+    <p>© 2026 隨堂小測驗系統 · 設計給親愛的學生們</p>
+  </footer>
+
+  <script>
+    // ==========================================
+    // 預設與本地變數設定
+    // ==========================================
+    // 老師若不想每次都手動貼上，可以直接將您的 GAS Web App 網址填在下方雙引號內：
+    const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbzvuC_sMr3DXempDt9Uy-xWHMRTGuS3vZzQ7SUY7DdJCGIqiGAF_u58mJYpapJPo01n/exec"; 
+
+    let currentStep = 1; // 1: Lobby, 2: Q1, 3: Q2, 4: Result
+    let studentName = "";
+    let selectedAvatar = "🐶";
+    const totalQuestions = 2;
+
+    // 正確答案定義
+    const correctAnswers = {
+      q1: "玉山",
+      q2: "冰"
+    };
+
+    // 可愛動物頭像列表
+    const avatars = ["🐶", "🐱", "🦊", "🦁", "🐰", "🐨", "🐼", "🐥", "🐸", "🐧"];
+
+    // ==========================================
+    // DOM 元素選取
+    // ==========================================
+    const lobbyScreen = document.getElementById("lobbyScreen");
+    const quizScreen = document.getElementById("quizScreen");
+    const resultScreen = document.getElementById("resultScreen");
+    const avatarContainer = document.getElementById("avatarContainer");
+    const startBtn = document.getElementById("startBtn");
+    const studentNameInput = document.getElementById("studentName");
+    
+    const activeStudentName = document.getElementById("activeStudentName");
+    const activeAvatar = document.getElementById("activeAvatar");
+    const quizProgressText = document.getElementById("quizProgressText");
+    const quizProgressPercent = document.getElementById("quizProgressPercent");
+    const quizProgressBar = document.getElementById("quizProgressBar");
+    
+    const q1Block = document.getElementById("q1Block");
+    const q2Block = document.getElementById("q2Block");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const submitBtn = document.getElementById("submitBtn");
+    const quizForm = document.getElementById("quizForm");
+
+    const resultEmoji = document.getElementById("resultEmoji");
+    const resultTitle = document.getElementById("resultTitle");
+    const resultNameLabel = document.getElementById("resultNameLabel");
+    const finalScore = document.getElementById("finalScore");
+    const uploadStatusBox = document.getElementById("uploadStatusBox");
+    const statusIcon = document.getElementById("statusIcon");
+    const statusText = document.getElementById("statusText");
+    const restartBtn = document.getElementById("restartBtn");
+
+    // 老師設定相關 DOM
+    const settingsBtn = document.getElementById("settingsBtn");
+    const settingsModal = document.getElementById("settingsModal");
+    const closeSettingsBtn = document.getElementById("closeSettingsBtn");
+    const cancelSettingsBtn = document.getElementById("cancelSettingsBtn");
+    const saveSettingsBtn = document.getElementById("saveSettingsBtn");
+    const gasUrlInput = document.getElementById("gasUrlInput");
+
+    // ==========================================
+    // 初始化設定與頭像選擇
+    // ==========================================
+    // 初始化動物頭像按鈕
+    avatars.forEach((emoji, index) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.innerText = emoji;
+      btn.className = `text-2xl p-2.5 rounded-xl border-2 transition-all focus:outline-none bounce-hover ${
+        index === 0 ? "border-blue-500 bg-blue-50" : "border-slate-100 hover:bg-slate-50"
+      }`;
+      btn.addEventListener("click", () => {
+        // 取消先前選取的樣式
+        document.querySelectorAll("#avatarContainer button").forEach(b => {
+          b.className = "text-2xl p-2.5 rounded-xl border-2 border-slate-100 hover:bg-slate-50 transition-all focus:outline-none bounce-hover";
+        });
+        // 套用選取樣式
+        btn.className = "text-2xl p-2.5 rounded-xl border-2 border-blue-500 bg-blue-50 transition-all focus:outline-none bounce-hover";
+        selectedAvatar = emoji;
+      });
+      avatarContainer.appendChild(btn);
+    });
+
+    // 從 LocalStorage 載入老師設定的 GAS URL，若無則採用預設值
+    let currentGasUrl = localStorage.getItem("quiz_gas_url") || DEFAULT_GAS_URL;
+    gasUrlInput.value = currentGasUrl;
+
+    // ==========================================
+    // 步驟轉場控制與作答邏輯
+    // ==========================================
+    
+    // 1. 點擊「開始挑戰」
+    startBtn.addEventListener("click", () => {
+      studentName = studentNameInput.value.trim();
+      if (!studentName) {
+        showCustomAlert("📝 填寫提醒", "請先輸入您的姓名才能開始測驗唷！", "warning");
+        return;
+      }
+      
+      // 進入測驗畫面
+      lobbyScreen.classList.add("hidden");
+      quizScreen.classList.remove("hidden");
+      
+      activeStudentName.innerText = studentName;
+      activeAvatar.innerText = selectedAvatar;
+      currentStep = 1;
+      updateQuizProgress();
+    });
+
+    // 更新題目顯示與進度
+    function updateQuizProgress() {
+      if (currentStep === 1) {
+        q1Block.classList.remove("hidden");
+        q2Block.classList.add("hidden");
+        prevBtn.classList.add("hidden");
+        nextBtn.classList.remove("hidden");
+        submitBtn.classList.add("hidden");
+        
+        quizProgressText.innerText = `正在挑戰第 1 / 2 題`;
+        quizProgressPercent.innerText = `50%`;
+        quizProgressBar.style.width = `50%`;
+      } else if (currentStep === 2) {
+        q1Block.classList.add("hidden");
+        q2Block.classList.remove("hidden");
+        prevBtn.classList.remove("hidden");
+        nextBtn.classList.add("hidden");
+        submitBtn.classList.remove("hidden");
+        
+        quizProgressText.innerText = `正在挑戰第 2 / 2 題`;
+        quizProgressPercent.innerText = `100%`;
+        quizProgressBar.style.width = `100%`;
+      }
+    }
+
+    // 「下一題」與「上一題」點擊事件
+    nextBtn.addEventListener("click", () => {
+      // 檢查當前題目是否有作答
+      const q1Selected = document.querySelector('input[name="q1"]:checked');
+      if (!q1Selected) {
+        showCustomAlert("☝️ 請選擇答案", "這題還沒選出你的答案唷！", "warning");
+        return;
+      }
+      currentStep = 2;
+      updateQuizProgress();
+    });
+
+    prevBtn.addEventListener("click", () => {
+      currentStep = 1;
+      updateQuizProgress();
+    });
+
+    // 2. 表單提交（送出並看成績）
+    quizForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const q2Selected = document.querySelector('input[name="q2"]:checked');
+      if (!q2Selected) {
+        showCustomAlert("☝️ 請選擇答案", "第二題還沒作答唷！", "warning");
+        return;
+      }
+
+      // 算分
+      let score = 0;
+      const q1Val = document.querySelector('input[name="q1"]:checked').value;
+      const q2Val = document.querySelector('input[name="q2"]:checked').value;
+
+      if (q1Val === correctAnswers.q1) score += 50;
+      if (q2Val === correctAnswers.q2) score += 50;
+
+      // 轉換到結算畫面
+      quizScreen.classList.add("hidden");
+      resultScreen.classList.remove("hidden");
+
+      // 渲染分數與評語
+      finalScore.innerText = score;
+      resultNameLabel.innerText = `辛苦囉，${studentName} 同學！`;
+      
+      if (score === 100) {
+        resultEmoji.innerText = "👑";
+        resultTitle.innerText = "超級優秀！完美滿分！";
+        triggerConfetti(); // 施放滿分煙火
+      } else if (score === 50) {
+        resultEmoji.innerText = "👍";
+        resultTitle.innerText = "表現不錯！再接再厲！";
+      } else {
+        resultEmoji.innerText = "💡";
+        resultTitle.innerText = "別灰心！多加練習會更好！";
+      }
+
+      // 上傳到試算表
+      uploadScoreToGoogle(studentName, score);
+    });
+
+    // 3. 上傳成績至 Google 試算表 (透過 fetch)
+    function uploadScoreToGoogle(name, score) {
+      updateStatus("uploading", "正在將成績同步至老師的雲端試算表...");
+
+      if (!currentGasUrl) {
+        // 若老師尚未設定網址，提示引導
+        updateStatus("warning", "成績已計算。但尚未設定 Google 試算表接收網址（請點選右上角齒輪設定）。");
+        return;
+      }
+
+      const payload = {
+        name: name,
+        score: score
+      };
+
+      // 採用 5 次指數退避重試機制以確保留連線品質與穩定度
+      sendWithRetry(currentGasUrl, payload, 5, 1000);
+    }
+
+    // 實作帶有指數退避機制的 Fetch POST
+    function sendWithRetry(url, data, retries, delay) {
+      fetch(url, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "text/plain" // 標準簡化 CORS 預檢之請求
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP 錯誤狀態碼: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(res => {
+        if (res.status === "success") {
+          updateStatus("success", "成績已成功登錄！老師的試算表已同步更新囉。");
+        } else {
+          throw new Error(res.message || "未知伺服器錯誤");
+        }
+      })
+      .catch(error => {
+        if (retries > 1) {
+          // 進行下一次重試 (不將 retry 資訊輸出至 console 避免雜訊)
+          setTimeout(() => {
+            sendWithRetry(url, data, retries - 1, delay * 2);
+          }, delay);
+        } else {
+          // 超過重試次數，顯示錯誤訊息
+          updateStatus("error", `資料自動同步失敗。請截圖此畫面（${score}分）傳送給老師。`);
+        }
+      });
+    }
+
+    // 更新上傳狀態列樣式與文字
+    function updateStatus(state, message) {
+      uploadStatusBox.className = "p-4 rounded-2xl border transition-all duration-300 ";
+      if (state === "uploading") {
+        uploadStatusBox.classList.add("bg-blue-50/50", "border-blue-100", "text-blue-700");
+        statusIcon.innerText = "🔄";
+        statusText.innerText = message;
+      } else if (state === "success") {
+        uploadStatusBox.classList.add("bg-emerald-50", "border-emerald-100", "text-emerald-700");
+        statusIcon.innerText = "✅";
+        statusText.innerText = message;
+      } else if (state === "error") {
+        uploadStatusBox.classList.add("bg-rose-50", "border-rose-100", "text-rose-700");
+        statusIcon.innerText = "❌";
+        statusText.innerText = message;
+      } else if (state === "warning") {
+        uploadStatusBox.classList.add("bg-amber-50", "border-amber-100", "text-amber-700");
+        statusIcon.innerText = "⚠️";
+        statusText.innerText = message;
+      }
+    }
+
+    // 重新挑戰按鈕
+    restartBtn.addEventListener("click", () => {
+      // 重設狀態
+      studentNameInput.value = "";
+      quizForm.reset();
+      
+      resultScreen.classList.add("hidden");
+      lobbyScreen.classList.remove("hidden");
+      currentStep = 1;
+    });
+
+    // ==========================================
+    // 老師設定面板相關控制
+    // ==========================================
+    settingsBtn.addEventListener("click", () => {
+      settingsModal.classList.remove("hidden");
+    });
+
+    const closeSettings = () => {
+      settingsModal.classList.add("hidden");
+    };
+
+    closeSettingsBtn.addEventListener("click", closeSettings);
+    cancelSettingsBtn.addEventListener("click", closeSettings);
+
+    saveSettingsBtn.addEventListener("click", () => {
+      const enteredUrl = gasUrlInput.value.trim();
+      currentGasUrl = enteredUrl;
+      localStorage.setItem("quiz_gas_url", enteredUrl);
+      closeSettings();
+      showCustomAlert("💾 設定完成", "您的 Google Apps Script 雲端串接網址已安全儲存！", "success");
+    });
+
+    // 點擊 Modal 背景也可關閉
+    settingsModal.addEventListener("click", (e) => {
+      if (e.target === settingsModal) {
+        closeSettings();
+      }
+    });
+
+    // ==========================================
+    // 視覺特效與客製化 Alert（不使用瀏覽器 alert）
+    // ==========================================
+    
+    // 施放煙火函數
+    function triggerConfetti() {
+      const duration = 2.5 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      const interval = setInterval(function() {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+      }, 250);
+    }
+
+    // 自訂優雅的提示彈窗函數
+    function showCustomAlert(title, message, type = "success") {
+      // 動態產生一個精美 Modal
+      const alertOverlay = document.createElement("div");
+      alertOverlay.className = "fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in";
+      
+      let themeColor = "blue";
+      let icon = "🔔";
+      if (type === "warning") {
+        themeColor = "amber";
+        icon = "⚠️";
+      } else if (type === "error") {
+        themeColor = "rose";
+        icon = "❌";
+      }
+
+      alertOverlay.innerHTML = `
+        <div class="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border border-slate-100 transform scale-95 transition-transform duration-300">
+          <div class="p-6 text-center space-y-4">
+            <span class="text-4xl block">${icon}</span>
+            <h4 class="text-lg font-bold text-slate-800">${title}</h4>
+            <p class="text-sm text-slate-500 leading-relaxed">${message}</p>
+            <button id="alertConfirmBtn" class="w-full py-2.5 bg-${themeColor}-500 hover:bg-${themeColor}-600 text-white font-bold rounded-2xl transition-all shadow-md text-sm focus:outline-none">
+              我知道了
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(alertOverlay);
+
+      // 補上動態背景著色與替代樣式 (避免 Tailwind CSS 沒載入動態生成類別的問題)
+      const btn = alertOverlay.querySelector("#alertConfirmBtn");
+      if (type === "warning") {
+        btn.style.backgroundColor = "#f59e0b";
+      } else if (type === "error") {
+        btn.style.backgroundColor = "#f43f5e";
+      } else {
+        btn.style.backgroundColor = "#3b82f6";
+      }
+
+      btn.addEventListener("click", () => {
+        alertOverlay.remove();
+      });
+    }
+  </script>
+</body>
+</html>
