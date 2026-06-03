@@ -53,4 +53,135 @@
             <div class="text-center p-2.5 border-2 border-slate-100 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50 font-medium text-slate-600 peer-checked:text-red-700 transition-all text-sm">紅色</div>
           </label>
           <label class="cursor-pointer bounce-hover">
-            <input type="
+            <input type="radio" name="ledColor" value="黃色" class="hidden peer" onclick="changeBulbColor('yellow')">
+            <div class="text-center p-2.5 border-2 border-slate-100 rounded-xl peer-checked:border-amber-500 peer-checked:bg-amber-50 font-medium text-slate-600 peer-checked:text-amber-700 transition-all text-sm">黃色</div>
+          </label>
+          <label class="cursor-pointer bounce-hover">
+            <input type="radio" name="ledColor" value="綠色" class="hidden peer" onclick="changeBulbColor('green')">
+            <div class="text-center p-2.5 border-2 border-slate-100 rounded-xl peer-checked:border-emerald-500 peer-checked:bg-emerald-50 font-medium text-slate-600 peer-checked:text-emerald-700 transition-all text-sm">綠色</div>
+          </label>
+          <label class="cursor-pointer bounce-hover">
+            <input type="radio" name="ledColor" value="藍色" class="hidden peer" onclick="changeBulbColor('blue')">
+            <div class="text-center p-2.5 border-2 border-slate-100 rounded-xl peer-checked:border-blue-500 peer-checked:bg-blue-50 font-medium text-slate-600 peer-checked:text-blue-700 transition-all text-sm">藍色</div>
+          </label>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-bold text-slate-700 mb-2">✨ 你的電路有沒有順利發光？</label>
+        <div class="grid grid-cols-2 gap-4">
+          <label class="cursor-pointer bounce-hover">
+            <input type="radio" name="isSuccess" value="成功發光" class="hidden peer" required>
+            <div class="text-center p-4 border-2 border-slate-100 rounded-2xl peer-checked:border-emerald-500 peer-checked:bg-emerald-50 font-bold text-slate-600 peer-checked:text-emerald-700 transition-all">
+              <span class="text-2xl block mb-1">🎉</span> 成功亮起來了！
+            </div>
+          </label>
+          <label class="cursor-pointer bounce-hover">
+            <input type="radio" name="isSuccess" value="遇到阻礙" class="hidden peer">
+            <div class="text-center p-4 border-2 border-slate-100 rounded-2xl peer-checked:border-orange-500 peer-checked:bg-orange-50 font-bold text-slate-600 peer-checked:text-orange-700 transition-all">
+              <span class="text-2xl block mb-1">🔍</span> 沒亮，需要除錯...
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div>
+        <label for="reflection" class="block text-sm font-bold text-slate-700 mb-1.5">💬 遇到什麼困難？（例如：銅箔貼紙斷掉、正負極接反等）或心得反思：</label>
+        <textarea id="reflection" rows="3" placeholder="請寫下你在製作時的發現或調整過程..." 
+          class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-amber-500 focus:ring-4 focus:ring-amber-100 transition-all outline-none font-medium text-slate-800 text-sm"></textarea>
+      </div>
+
+      <button type="submit" id="submitBtn" 
+        class="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-2xl shadow-lg hover:shadow-orange-200 hover:from-amber-600 hover:to-orange-600 transition-all bounce-hover text-lg">
+        🚀 送出學習單
+      </button>
+
+    </form>
+  </div>
+
+  <script>
+    // ==========================================
+    // 🔗 第二階段已自動替換：您的專屬 GAS 網址
+    // ==========================================
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbz_Xnu6U_XzbAcKe5NzPRkulxEDcStBUVwKBTUh0cMo67-GGmVILo8kMvjTj0wUGIyiaw/exec';
+
+    // 趣味效果：選擇 LED 顏色時網頁上的燈泡會跟著變色與發光
+    function changeBulbColor(color) {
+      const bulb = document.getElementById("bulbIcon");
+      if(color === 'red') {
+        bulb.className = "text-5xl transition-all duration-300 filter drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]";
+        bulb.style.color = "#ef4444";
+      } else if(color === 'yellow') {
+        bulb.className = "text-5xl transition-all duration-300 filter drop-shadow-[0_0_15px_rgba(245,158,11,0.8)]";
+        bulb.style.color = "#f59e0b";
+      } else if(color === 'green') {
+        bulb.className = "text-5xl transition-all duration-300 filter drop-shadow-[0_0_15px_rgba(16,185,129,0.8)]";
+        bulb.style.color = "#10b981";
+      } else if(color === 'blue') {
+        bulb.className = "text-5xl transition-all duration-300 filter drop-shadow-[0_0_15px_rgba(59,130,246,0.8)]";
+        bulb.style.color = "#3b82f6";
+      }
+    }
+
+    // 表單處理與傳送邏輯
+    document.getElementById("paperCircuitForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById("submitBtn");
+      const studentId = document.getElementById("studentId").value.trim();
+      const studentName = document.getElementById("studentName").value.trim();
+      const ledColor = document.querySelector('input[name="ledColor"]:checked').value;
+      const isSuccess = document.querySelector('input[name="isSuccess"]:checked').value;
+      const reflection = document.getElementById("reflection").value.trim();
+
+      // 防止重複點擊，進入傳送中狀態
+      submitBtn.disabled = true;
+      submitBtn.innerText = "⚡ 正在傳送到雲端資料庫...";
+      submitBtn.className = "w-full py-4 bg-slate-400 text-white font-bold rounded-2xl cursor-not-allowed text-lg";
+
+      // 打包資料
+      const payload = {
+        id: studentId,
+        name: studentName,
+        color: ledColor,
+        success: isSuccess,
+        reflection: reflection || "無" // 留空則填無
+      };
+
+      // 利用 Fetch API 發送非同步 POST 請求給 GAS
+      fetch(GAS_URL, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "text/plain" // 標準跨網域簡化通訊設定
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if(data.status === "success") {
+          // 傳送成功：顯示成功視窗並重設表單
+          alert(`🎉 太棒了！\n\n${studentName} 同學，你的紙電路學習單已成功送出囉！`);
+          document.getElementById("paperCircuitForm").reset();
+          // 還原燈泡
+          const bulb = document.getElementById("bulbIcon");
+          bulb.style.color = "";
+          bulb.className = "text-5xl transition-all duration-300 filter drop-shadow-[0_0_10px_rgba(251,191,36,0)]";
+        } else {
+          alert(`⚠️ 上傳失敗：` + data.message);
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert(`❌ 網路連線錯誤，無法同步至雲端試算表。\n請檢查網路，或者將目前填寫的畫面截圖給老師！`);
+      })
+      .finally(() => {
+        // 還原按鈕狀態
+        submitBtn.disabled = false;
+        submitBtn.innerText = "🚀 送出學習單";
+        submitBtn.className = "w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold rounded-2xl shadow-lg hover:shadow-orange-200 hover:from-amber-600 hover:to-orange-600 transition-all bounce-hover text-lg";
+      });
+    });
+  </script>
+</body>
+</html>
